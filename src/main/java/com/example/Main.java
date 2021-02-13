@@ -55,6 +55,7 @@ public class Main {
 
   @RequestMapping("/sample")
   String torihikisakilist(Map<String, Object> model){
+    System.out.println("dbUrl:" + dbUrl)
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM salesforce.Energy_Audit__c");

@@ -53,6 +53,27 @@ public class Main {
     return "index";
   }
 
+  @RequestMapping("/sample")
+  String torihikisakilist(Map<String, Object> model){
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM salesforce.Energy_Audit__c");
+
+      ArrayList<String> output = new ArrayList<String>();
+      while (rs.next()) {
+        output.add(rs.getString("Name") + "," + rs.getString("Audit_Notes__c"));
+        System.out.println(rs.getString("Name"));
+      }
+
+      model.put("records", output);
+      return "db";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
